@@ -1,0 +1,35 @@
+<!-- pay.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting to UPI...</title>
+</head>
+<body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+  <p id="status">Opening your UPI app...</p>
+  <button id="payBtn" style="display:none; padding:12px 24px; font-size:16px;">
+    Tap to Pay
+  </button>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const pa = params.get('pa');
+    const pn = params.get('pn');
+    const am = params.get('am');
+    const tn = params.get('tn');
+    const cu = params.get('cu') || 'INR';
+
+    const upiUrl = `upi://pay?pa=${pa}&pn=${pn}&am=${am}&cu=${cu}&tn=${tn}`;
+
+    const btn = document.getElementById('payBtn');
+    btn.onclick = () => { window.location.href = upiUrl; };
+
+    window.location.href = upiUrl;
+
+    setTimeout(() => {
+      document.getElementById('status').innerText = 'Tap the button below to pay:';
+      btn.style.display = 'inline-block';
+    }, 800);
+  </script>
+</body>
+</html>

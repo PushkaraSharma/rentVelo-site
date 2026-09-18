@@ -4,10 +4,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RentVelo — Property Management, Elevated</title>
+  <title>RentVelo | Rent Management App for iOS &amp; Android</title>
+  <meta name="description"
+    content="RentVelo is a rent management app for Indian landlords: collect rent, share PDF receipts, and track balances from iPhone or Android." />
+  <link rel="canonical" href="https://rentvelo.indieroots.in/" />
+  <link rel="icon" href="assets/logo.png" type="image/png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RentVelo" />
+  <meta property="og:title" content="RentVelo | Rent Management App for iOS &amp; Android" />
+  <meta property="og:description"
+    content="Collect rent, send receipts, and track balances — a phone-first rent management app for Indian landlords." />
+  <meta property="og:url" content="https://rentvelo.indieroots.in/" />
+  <meta property="og:image" content="https://rentvelo.indieroots.in/assets/main.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="RentVelo | Rent Management App for iOS &amp; Android" />
+  <meta name="twitter:description"
+    content="Collect rent, send receipts, and track balances from one rent management app." />
+  <meta name="twitter:image" content="https://rentvelo.indieroots.in/assets/main.png" />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&display=swap"
     rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "RentVelo",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "iOS, Android",
+    "description": "Rent management app for Indian landlords to collect rent, share PDF receipts, and track tenant balances from a phone.",
+    "url": "https://rentvelo.indieroots.in/",
+    "image": "https://rentvelo.indieroots.in/assets/main.png",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "downloadUrl": [
+      "https://apps.apple.com/in/app/rentvelo-property-manager/id6761322535",
+      "https://play.google.com/store/apps/details?id=com.indieroots.rentVelo"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is RentVelo a rent management app?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. RentVelo is a rent management app for iOS and Android. Collect rent, share PDF receipts, and track balances from your phone."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where is my tenant data stored?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "On your phone. RentVelo is local-first — property, tenant, and rent records live on the device. We do not host that data on our servers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if I switch phones?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use Backup & Restore with your own Google Drive. Your backup stays in a folder on your account, then restores onto the new device."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does RentVelo process UPI payments?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Pay links open the tenant’s UPI app. RentVelo does not collect or settle rent on your behalf."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it on iOS and Android?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Download RentVelo on the App Store and Google Play."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is RentVelo free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — download and start managing properties today. Premium tools like rent agreements and eKYC are on the roadmap."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I generate rent receipts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Create a professional PDF receipt and share it over WhatsApp or email in one tap."
+        }
+      }
+    ]
+  }
+  </script>
   <style>
     *,
     *::before,
@@ -1777,6 +1878,7 @@
     <a href="#include" onclick="toggleMenu()">Includes</a>
     <a href="#reviews" onclick="toggleMenu()">Reviews</a>
     <a href="#faq" onclick="toggleMenu()">FAQ</a>
+    <a href="rent-management-app.html" onclick="toggleMenu()">Rent management app</a>
     <a href="privacy-policy/">Privacy Policy</a>
     <a href="terms/">Terms &amp; Conditions</a>
     <a href="#download"
@@ -1794,8 +1896,7 @@
           <span class="badge-dot"></span>
           Available on iOS &amp; Android
         </div>
-        <h1>Meet RentVelo</h1>
-        <h1 style="font-weight: 500;">Rent management<br />from your phone</h1>
+        <h1>RentVelo — rent management<br /><span style="font-weight: 500;">from your phone</span></h1>
         <p class="hero-sub">Collect rent, send receipts, and track balances — built for Indian landlords.</p>
         <div class="hero-actions">
           <a href="https://apps.apple.com/in/app/rentvelo-property-manager/id6761322535" class="btn-store"
@@ -1844,7 +1945,7 @@
   <!-- WHAT RENTVELO INCLUDES -->
   <div class="include-wrap" id="include">
     <div class="features-header fade-up">
-      <h2 class="section-title">What does RentVelo include?</h2>
+      <h2 class="section-title">What does this rent management app include?</h2>
     </div>
     <div class="include-layout fade-up">
       <div class="include-phone">
@@ -2150,6 +2251,12 @@
     </div>
     <div class="faq-list fade-up">
       <div class="faq-item">
+        <button type="button">Is RentVelo a rent management app?<span>+</span></button>
+        <div class="answer">Yes. RentVelo is a rent management app for iOS and Android. Collect rent, share PDF
+          receipts, and track balances from your phone. Read the
+          <a href="rent-management-app.html">rent management app guide</a>.</div>
+      </div>
+      <div class="faq-item">
         <button type="button">Where is my tenant data stored?<span>+</span></button>
         <div class="answer">On your phone. RentVelo is local-first — property, tenant, and rent records live in SQLite
           on the device. We do not host that data on our servers.</div>
@@ -2196,6 +2303,7 @@
           <a href="#features">Features</a>
           <a href="#include">Includes</a>
           <a href="#download">Download</a>
+          <a href="rent-management-app.html">Rent management app</a>
           <a href="#coming-soon">Roadmap</a>
         </div>
         <div class="footer-links-group">

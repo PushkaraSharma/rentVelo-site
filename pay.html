@@ -28,7 +28,18 @@
     }
     h1 { font-size: 1.25rem; margin: 0 0 8px; }
     .amount { font-size: 2rem; font-weight: 700; margin: 16px 0; color: #059669; }
-    .meta { font-size: 0.9rem; color: #6b7280; line-height: 1.5; margin-bottom: 24px; }
+    .meta { font-size: 0.9rem; color: #6b7280; line-height: 1.5; margin-bottom: 20px; }
+    .notice {
+      font-size: 0.85rem;
+      color: #92400e;
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      line-height: 1.45;
+      text-align: left;
+    }
     .btn {
       display: block;
       width: 100%;
@@ -41,10 +52,67 @@
       border-radius: 12px;
       text-decoration: none;
       cursor: pointer;
+      margin-bottom: 10px;
     }
     .btn:active { opacity: 0.9; }
+    .btn-outline {
+      background: #fff;
+      color: #2563eb;
+      border: 2px solid #2563eb;
+    }
+    .btn-ghost {
+      background: #f3f4f6;
+      color: #374151;
+      border: none;
+      font-weight: 500;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #9ca3af;
+      margin: 20px 0 10px;
+      text-align: left;
+    }
+    .app-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .app-grid .btn {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+      padding: 12px 16px;
+    }
+    .copy-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .copy-row .btn {
+      flex: 1;
+      margin-bottom: 0;
+      font-size: 0.9rem;
+      padding: 12px 10px;
+    }
     .err { color: #b91c1c; font-size: 0.95rem; }
     .brand { margin-top: 20px; font-size: 0.75rem; color: #9ca3af; }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .toast.show { opacity: 1; }
   </style>
 </head>
 <body>
@@ -54,11 +122,22 @@
       <h1>Pay rent via UPI</h1>
       <div class="amount" id="amount"></div>
       <div class="meta" id="meta"></div>
+      <p class="notice" id="iosNotice" hidden>
+        On iPhone, UPI apps often won&apos;t open automatically. Tap <strong>Open UPI app</strong> or choose your app below. You can also copy the UPI ID and pay manually in any UPI app.
+      </p>
       <a class="btn" id="payBtn" href="#">Open UPI app to pay</a>
-      <p class="brand" id="hint">If your UPI app didn&apos;t open, tap the button above.</p>
+      <p class="section-label" id="appsLabel">Or open in a specific app</p>
+      <div class="app-grid" id="appGrid"></div>
+      <p class="section-label">Pay manually</p>
+      <div class="copy-row">
+        <button type="button" class="btn btn-ghost" id="copyUpi">Copy UPI ID</button>
+        <button type="button" class="btn btn-ghost" id="copyDetails">Copy all details</button>
+      </div>
+      <p class="brand" id="hint">If nothing opened, use the buttons above.</p>
       <p class="brand">RentVelo</p>
     </div>
   </div>
+  <p class="toast" id="toast" role="status" aria-live="polite"></p>
   <script>
     (function () {
       var params = new URLSearchParams(window.location.search);
@@ -70,6 +149,50 @@
 
       var errEl = document.getElementById('error');
       var content = document.getElementById('content');
+      var toastEl = document.getElementById('toast');
+      var toastTimer;
+
+      function isAppleDevice() {
+        var ua = navigator.userAgent || '';
+        var isIOS = /iPad|iPhone|iPod/.test(ua);
+        var isIPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+        return isIOS || isIPadOS;
+      }
+
+      function showToast(msg) {
+        toastEl.textContent = msg;
+        toastEl.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toastEl.classList.remove('show');
+        }, 2200);
+      }
+
+      function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text).then(function () {
+            showToast('Copied');
+          }).catch(fallbackCopy);
+        }
+        return fallbackCopy(text);
+      }
+
+      function fallbackCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showToast('Copied');
+        } catch (e) {
+          showToast('Could not copy — select text manually');
+        }
+        document.body.removeChild(ta);
+      }
 
       if (!pa || !Number.isFinite(am) || am <= 0) {
         errEl.hidden = false;
@@ -85,7 +208,15 @@
       if (pn) query.push('pn=' + encodeURIComponent(pn.slice(0, 50)));
       if (tn) query.push('tn=' + encodeURIComponent(tn.slice(0, 80)));
 
-      var upiUrl = 'upi://pay?' + query.join('&');
+      var queryString = query.join('&');
+      var upiUrl = 'upi://pay?' + queryString;
+
+      var appLinks = [
+        { label: 'Google Pay', href: 'tez://upi/pay?' + queryString },
+        { label: 'PhonePe', href: 'phonepe://pay?' + queryString },
+        { label: 'Paytm', href: 'paytmmp://pay?' + queryString },
+        { label: 'BHIM', href: 'bhim://upi/pay?' + queryString }
+      ];
 
       document.getElementById('amount').textContent = '\u20B9' + am.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       var meta = 'Pay to: ' + pa;
@@ -95,17 +226,47 @@
 
       var btn = document.getElementById('payBtn');
       btn.href = upiUrl;
-      btn.addEventListener('click', function () {
-        window.location.href = upiUrl;
+
+      var grid = document.getElementById('appGrid');
+      appLinks.forEach(function (app) {
+        var a = document.createElement('a');
+        a.className = 'btn btn-outline';
+        a.href = app.href;
+        a.textContent = app.label;
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          window.location.href = app.href;
+        });
+        grid.appendChild(a);
+      });
+
+      var amountFormatted = am.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      var detailsText = [
+        'UPI ID: ' + pa,
+        'Amount: \u20B9' + amountFormatted,
+        pn ? 'Name: ' + pn : '',
+        tn ? 'Note: ' + tn : ''
+      ].filter(Boolean).join('\n');
+
+      document.getElementById('copyUpi').addEventListener('click', function () {
+        copyText(pa);
+      });
+      document.getElementById('copyDetails').addEventListener('click', function () {
+        copyText(detailsText);
       });
 
       content.hidden = false;
 
-      // Try to open UPI immediately (works on many in-app browsers after WhatsApp link tap).
-      // Browsers may block this; the button below is the reliable fallback.
-      setTimeout(function () {
-        window.location.href = upiUrl;
-      }, 400);
+      var apple = isAppleDevice();
+      if (apple) {
+        document.getElementById('iosNotice').hidden = false;
+        document.getElementById('hint').textContent =
+          'Auto-open is limited on iPhone. Tap a button above or copy details and pay in your UPI app.';
+      } else {
+        setTimeout(function () {
+          window.location.href = upiUrl;
+        }, 400);
+      }
     })();
   </script>
 </body>

@@ -42,7 +42,18 @@
     "downloadUrl": [
       "https://apps.apple.com/in/app/rentvelo-property-manager/id6761322535",
       "https://play.google.com/store/apps/details?id=com.indieroots.rentVelo"
-    ]
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "IndieRoots",
+      "url": "https://indieroots.in/",
+      "sameAs": [
+        "https://indieroots.in/",
+        "https://gymkarta.indieroots.in/",
+        "https://apps.apple.com/in/app/rentvelo-property-manager/id6761322535",
+        "https://play.google.com/store/apps/details?id=com.indieroots.rentVelo"
+      ]
+    }
   }
   </script>
   <script type="application/ld+json">
@@ -104,6 +115,14 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "Yes. Create a professional PDF receipt and share it over WhatsApp or email in one tap."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I track electricity with rent?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Log meter readings per tenant and add the extra to the month."
         }
       }
     ]
@@ -1219,16 +1238,10 @@
       color: var(--accent)
     }
 
-    /* SCROLL ANIMATIONS */
+    /* Visible without JS so Googlebot can index the text */
     .fade-up {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .65s ease, transform .65s ease
-    }
-
-    .fade-up.visible {
       opacity: 1;
-      transform: translateY(0)
+      transform: none
     }
 
     /* RESPONSIVE */
@@ -1598,10 +1611,44 @@
     .include-wrap,
     .darkmode-wrap,
     .reviews-wrap,
+    .tutorials-wrap,
     .faq-wrap {
       max-width: 1280px;
       margin: 0 auto;
       padding: 7rem 5%
+    }
+
+    .tutorials-header {
+      text-align: center;
+      margin-bottom: 2rem
+    }
+
+    .tutorials-frame {
+      position: relative;
+      width: min(860px, 100%);
+      margin: 0 auto;
+      padding-bottom: 48%;
+      background: #111;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border)
+    }
+
+    .tutorials-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0
+    }
+
+    .tutorials-more {
+      display: block;
+      text-align: center;
+      margin-top: 1.2rem;
+      color: var(--text);
+      font-weight: 600;
+      text-decoration: none
     }
 
     .include-layout {
@@ -1846,8 +1893,13 @@
       .include-wrap,
       .darkmode-wrap,
       .reviews-wrap,
+      .tutorials-wrap,
       .faq-wrap {
         padding: 4.5rem 1.2rem
+      }
+
+      .tutorials-frame {
+        padding-bottom: 56.25%
       }
     }
   </style>
@@ -1864,7 +1916,7 @@
     <div class="nav-links">
       <a href="#features">Features</a>
       <a href="#include">Includes</a>
-      <a href="#reviews">Reviews</a>
+      <a href="blog/">Blog</a>
       <a href="#faq">FAQ</a>
       <a href="#download" class="nav-cta">Get the app</a>
     </div>
@@ -1876,9 +1928,8 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="#features" onclick="toggleMenu()">Features</a>
     <a href="#include" onclick="toggleMenu()">Includes</a>
-    <a href="#reviews" onclick="toggleMenu()">Reviews</a>
     <a href="#faq" onclick="toggleMenu()">FAQ</a>
-    <a href="rent-management-app.html" onclick="toggleMenu()">Rent management app</a>
+    <a href="blog/" onclick="toggleMenu()">Blog</a>
     <a href="privacy-policy/">Privacy Policy</a>
     <a href="terms/">Terms &amp; Conditions</a>
     <a href="#download"
@@ -2155,6 +2206,26 @@
     </div>
   </div>
 
+  <!-- TUTORIALS -->
+  <div class="tutorials-wrap" id="tutorials">
+    <div class="tutorials-header fade-up">
+      <div class="section-label" style="justify-content:center">Watch</div>
+      <h2 class="section-title">RentVelo tutorials</h2>
+      <p class="section-sub" style="margin:0 auto">Short walkthroughs from the IndieRoots YouTube channel. Add a
+        property, collect rent, send a receipt.</p>
+    </div>
+    <div class="tutorials-frame fade-up">
+      <iframe
+        src="https://www.youtube.com/embed/videoseries?list=PLBjqQ3oFS6D0"
+        title="RentVelo rent management tutorials on YouTube"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <a class="tutorials-more" href="blog/#tutorials">See all guides and tutorials on the blog</a>
+  </div>
+
   <!-- PRICING -->
   <div class="pricing-wrap" id="download">
     <div class="fade-up">
@@ -2254,7 +2325,7 @@
         <button type="button">Is RentVelo a rent management app?<span>+</span></button>
         <div class="answer">Yes. RentVelo is a rent management app for iOS and Android. Collect rent, share PDF
           receipts, and track balances from your phone. Read the
-          <a href="rent-management-app.html">rent management app guide</a>.</div>
+          <a href="blog/rent-management-app.html">rent management app guide</a>.</div>
       </div>
       <div class="faq-item">
         <button type="button">Where is my tenant data stored?<span>+</span></button>
@@ -2282,7 +2353,13 @@
       </div>
       <div class="faq-item">
         <button type="button">Can I generate rent receipts?<span>+</span></button>
-        <div class="answer">Yes. Create a professional PDF receipt and share it over WhatsApp or email in one tap.</div>
+        <div class="answer">Yes. Create a professional PDF receipt and share it over WhatsApp or email in one tap. See
+          the <a href="blog/rent-receipt-app.html">rent receipt app guide</a>.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button">Can I track electricity with rent?<span>+</span></button>
+        <div class="answer">Yes. Log meter readings per tenant and add the extra to the month. Read the
+          <a href="blog/electricity-rent-tracker.html">electricity rent tracker guide</a>.</div>
       </div>
     </div>
   </div>
@@ -2303,8 +2380,16 @@
           <a href="#features">Features</a>
           <a href="#include">Includes</a>
           <a href="#download">Download</a>
-          <a href="rent-management-app.html">Rent management app</a>
-          <a href="#coming-soon">Roadmap</a>
+          <a href="blog/">Blog</a>
+          <a href="blog/#tutorials">Tutorials</a>
+          <a href="blog/rent-management-app.html">Rent management app</a>
+          <a href="blog/rent-receipt-app.html">Rent receipt app</a>
+          <a href="blog/electricity-rent-tracker.html">Electricity tracker</a>
+        </div>
+        <div class="footer-links-group">
+          <h4>IndieRoots</h4>
+          <a href="https://indieroots.in/">IndieRoots studio</a>
+          <a href="https://gymkarta.indieroots.in/">GymKarta gym management</a>
         </div>
         <div class="footer-links-group">
           <h4>Legal</h4>
